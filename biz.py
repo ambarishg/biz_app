@@ -1,6 +1,18 @@
 from azure_openai import *
 from pprint import pprint
 import traceback
+import json
+from azure_blob.azure_blob_helper import AzureBlobHelper
+
+from azure.search.documents.indexes import SearchIndexClient
+from azure.search.documents.indexes.models import *
+from azure.search.documents import SearchClient
+from azure.core.credentials import AzureKeyCredential
+
+verbose = True
+search_creds = AzureKeyCredential(searchkey)
+
+from config_openai import *
 
 context = """
 The men's high jump event at the 2020 Summer Olympics took place between 30 July and 1 August 2021 at the Olympic Stadium.
@@ -25,3 +37,22 @@ def get_reply():
     except Exception as e:
         pprint(e.__str__())
         return(f"Error in get_reply - {e.__str__()}")
+
+def get_search_indexes_helper():
+    try:
+        verbose = True
+        search_creds = AzureKeyCredential(searchkey)
+
+        index_client = SearchIndexClient(endpoint=f"https://{searchservice}.search.windows.net/",
+                                        credential=search_creds)
+                
+        return [index for index in index_client.list_index_names()]
+    except Exception as e:
+        pprint(e.__str__())
+        return(f"Error in get_search_indexes_helper - {e.__str__()}")
+
+def get_blobs_helper():
+    azure_blob_helper = AzureBlobHelper(AZ_ST_ACC_NAME,
+                                    AZ_ST_ACC_KEY,
+                                    AZ_ST_CONTAINER_NAME)
+    return(azure_blob_helper.list_blob())

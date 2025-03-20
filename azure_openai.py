@@ -5,7 +5,7 @@ from openai import AzureOpenAI
 client = AzureOpenAI(
   azure_endpoint = endpoint,
   api_key=key,  
-  api_version="2023-05-15"
+  api_version="2024-05-01-preview"
 )
 
 def create_prompt(context,query):

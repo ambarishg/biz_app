@@ -38,7 +38,25 @@ async def get_answer():
         return response
     except Exception as e:
         logging.error(e)
-        raise HTTPException(status_code=500, detail="Error in Hello")
+        raise HTTPException(status_code=500, detail="Error in get_answer")
+
+@app.post("/get_search_indexes/")
+async def get_search_indexes():
+    try:
+        response = get_search_indexes_helper()
+        return response
+    except Exception as e:
+        logging.error(e)
+        raise HTTPException(status_code=500, detail="Error in get_search_indexes")
+
+@app.post("/get_blobs/")
+async def get_blobs():
+    try:
+        response = get_blobs_helper()
+        return response
+    except Exception as e:
+        logging.error(e)
+        raise HTTPException(status_code=500, detail="Error in get_blobs")
     
 if __name__ == "__main__":
     import uvicorn
